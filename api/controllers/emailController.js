@@ -32,6 +32,29 @@ const scheduleEmail = async (req, res) => {
   }
 };
 
+const getAllEmails = async (req, res) => {
+  const emails = await Email.find({ user: req.user._id }).sort({ sendAt: -1 });
+  res.json(emails);
+};
+
+const getEmailById = async (req, res) => {
+  const email = await Email.findOne({ _id: req.params.id, user: req.user._id });
+  if (!email) return res.status(404).json({ message: "Not found" });
+  res.json(email);
+};
+
+const deleteEmail = async (req, res) => {
+  const email = await Email.findOneAndDelete({
+    _id: req.params.id,
+    user: req.user._id,
+  });
+  if (!email) return res.status(404).json({ message: "Not found" });
+  res.json({ message: "Deleted", email });
+};
+
 module.exports = {
   scheduleEmail,
+  getAllEmails,
+  getEmailById,
+  deleteEmail,
 };

@@ -69,6 +69,107 @@ var scheduleEmail = function scheduleEmail(req, res) {
   }, null, null, [[3, 12]]);
 };
 
+var getAllEmails = function getAllEmails(req, res) {
+  var emails;
+  return regeneratorRuntime.async(function getAllEmails$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return regeneratorRuntime.awrap(Email.find({
+            user: req.user._id
+          }).sort({
+            sendAt: -1
+          }));
+
+        case 2:
+          emails = _context2.sent;
+          res.json(emails);
+
+        case 4:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
+};
+
+var getEmailById = function getEmailById(req, res) {
+  var email;
+  return regeneratorRuntime.async(function getEmailById$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return regeneratorRuntime.awrap(Email.findOne({
+            _id: req.params.id,
+            user: req.user._id
+          }));
+
+        case 2:
+          email = _context3.sent;
+
+          if (email) {
+            _context3.next = 5;
+            break;
+          }
+
+          return _context3.abrupt("return", res.status(404).json({
+            message: "Not found"
+          }));
+
+        case 5:
+          res.json(email);
+
+        case 6:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  });
+};
+
+var deleteEmail = function deleteEmail(req, res) {
+  var email;
+  return regeneratorRuntime.async(function deleteEmail$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return regeneratorRuntime.awrap(Email.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user._id
+          }));
+
+        case 2:
+          email = _context4.sent;
+
+          if (email) {
+            _context4.next = 5;
+            break;
+          }
+
+          return _context4.abrupt("return", res.status(404).json({
+            message: "Not found"
+          }));
+
+        case 5:
+          res.json({
+            message: "Deleted",
+            email: email
+          });
+
+        case 6:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
-  scheduleEmail: scheduleEmail
+  scheduleEmail: scheduleEmail,
+  getAllEmails: getAllEmails,
+  getEmailById: getEmailById,
+  deleteEmail: deleteEmail
 };

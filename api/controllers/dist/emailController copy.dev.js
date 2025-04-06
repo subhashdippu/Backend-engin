@@ -129,8 +129,47 @@ var getEmailById = function getEmailById(req, res) {
   });
 };
 
+var deleteEmail = function deleteEmail(req, res) {
+  var email;
+  return regeneratorRuntime.async(function deleteEmail$(_context4) {
+    while (1) {
+      switch (_context4.prev = _context4.next) {
+        case 0:
+          _context4.next = 2;
+          return regeneratorRuntime.awrap(Email.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user._id
+          }));
+
+        case 2:
+          email = _context4.sent;
+
+          if (email) {
+            _context4.next = 5;
+            break;
+          }
+
+          return _context4.abrupt("return", res.status(404).json({
+            message: "Not found"
+          }));
+
+        case 5:
+          res.json({
+            message: "Deleted",
+            email: email
+          });
+
+        case 6:
+        case "end":
+          return _context4.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
   scheduleEmail: scheduleEmail,
   getAllEmails: getAllEmails,
-  getEmailById: getEmailById
+  getEmailById: getEmailById,
+  deleteEmail: deleteEmail
 };
