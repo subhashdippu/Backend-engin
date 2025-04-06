@@ -94,7 +94,43 @@ var getAllEmails = function getAllEmails(req, res) {
   });
 };
 
+var getEmailById = function getEmailById(req, res) {
+  var email;
+  return regeneratorRuntime.async(function getEmailById$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          _context3.next = 2;
+          return regeneratorRuntime.awrap(Email.findOne({
+            _id: req.params.id,
+            user: req.user._id
+          }));
+
+        case 2:
+          email = _context3.sent;
+
+          if (email) {
+            _context3.next = 5;
+            break;
+          }
+
+          return _context3.abrupt("return", res.status(404).json({
+            message: "Not found"
+          }));
+
+        case 5:
+          res.json(email);
+
+        case 6:
+        case "end":
+          return _context3.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
   scheduleEmail: scheduleEmail,
-  getAllEmails: getAllEmails
+  getAllEmails: getAllEmails,
+  getEmailById: getEmailById
 };
