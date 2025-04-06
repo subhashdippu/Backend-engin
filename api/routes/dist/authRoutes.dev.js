@@ -9,6 +9,6 @@ var _require = require("../controllers/authController"),
     login = _require.login; // Routes
 
 
-router.post("/register", register);
-router.post("/login", login);
+router.post("/register", register); // router.post("/login", login);
+
 module.exports = router;
