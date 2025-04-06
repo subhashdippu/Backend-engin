@@ -80,6 +80,70 @@ var register = function register(req, res) {
   }, null, null, [[8, 18]]);
 };
 
+var login = function login(req, res) {
+  var _req$body2, email, password, user, token;
+
+  return regeneratorRuntime.async(function login$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _req$body2 = req.body, email = _req$body2.email, password = _req$body2.password;
+          _context2.next = 3;
+          return regeneratorRuntime.awrap(User.findOne({
+            email: email
+          }));
+
+        case 3:
+          user = _context2.sent;
+          _context2.t0 = !user;
+
+          if (_context2.t0) {
+            _context2.next = 9;
+            break;
+          }
+
+          _context2.next = 8;
+          return regeneratorRuntime.awrap(bcrypt.compare(password, user.password));
+
+        case 8:
+          _context2.t0 = !_context2.sent;
+
+        case 9:
+          if (!_context2.t0) {
+            _context2.next = 11;
+            break;
+          }
+
+          return _context2.abrupt("return", res.status(401).json({
+            message: "Invalid credentials"
+          }));
+
+        case 11:
+          try {
+            token = jwt.sign({
+              id: user._id
+            }, process.env.JWT_SECRET, {
+              expiresIn: "1d"
+            });
+            res.json({
+              token: token
+            });
+          } catch (err) {
+            console.error("Login error:", err);
+            res.status(500).json({
+              message: "Internal server error"
+            });
+          }
+
+        case 12:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
-  register: register
+  register: register,
+  login: login
 };
