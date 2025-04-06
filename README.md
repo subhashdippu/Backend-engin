@@ -104,5 +104,5 @@ npm install
 4. Run the app
 
 ```bash
-npm run start
+nodemon index.js
 ```
