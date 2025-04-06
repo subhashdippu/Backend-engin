@@ -69,6 +69,32 @@ var scheduleEmail = function scheduleEmail(req, res) {
   }, null, null, [[3, 12]]);
 };
 
+var getAllEmails = function getAllEmails(req, res) {
+  var emails;
+  return regeneratorRuntime.async(function getAllEmails$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return regeneratorRuntime.awrap(Email.find({
+            user: req.user._id
+          }).sort({
+            sendAt: -1
+          }));
+
+        case 2:
+          emails = _context2.sent;
+          res.json(emails);
+
+        case 4:
+        case "end":
+          return _context2.stop();
+      }
+    }
+  });
+};
+
 module.exports = {
-  scheduleEmail: scheduleEmail
+  scheduleEmail: scheduleEmail,
+  getAllEmails: getAllEmails
 };

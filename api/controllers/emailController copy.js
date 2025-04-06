@@ -31,7 +31,12 @@ const scheduleEmail = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+const getAllEmails = async (req, res) => {
+  const emails = await Email.find({ user: req.user._id }).sort({ sendAt: -1 });
+  res.json(emails);
+};
 
 module.exports = {
   scheduleEmail,
+  getAllEmails,
 };
