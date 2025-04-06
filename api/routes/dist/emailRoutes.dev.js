@@ -6,8 +6,8 @@ var router = express.Router();
 
 var protect = require("../middleware/auth");
 
-var _require = require("../controllers/smtpController"),
-    setupSMTP = _require.setupSMTP;
+var _require = require("../controllers/emailController"),
+    scheduleEmail = _require.scheduleEmail;
 
-router.post("/smtp-setup", protect, setupSMTP);
+router.post("/schedule", protect, scheduleEmail);
 module.exports = router;
