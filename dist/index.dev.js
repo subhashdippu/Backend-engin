@@ -11,6 +11,8 @@ var connectDB = require("./api/config/db"); // Correct route imports:
 
 var authRoutes = require("./api/routes/authRoutes");
 
+var smtpRoutes = require("./api/routes/smtpRoutes");
+
 var app = express();
 app.use(cors());
 app.use(express.json()); // Connect DB
@@ -18,6 +20,7 @@ app.use(express.json()); // Connect DB
 connectDB(); // Mount routes
 
 app.use("/api/auth", authRoutes);
+app.use("/auth", smtpRoutes);
 var PORT = process.env.PORT || 5001;
 app.listen(PORT, function () {
   return console.log("\uD83D\uDE80 Listening on port ".concat(PORT));
